@@ -9,7 +9,7 @@
 [bg storage="room_1.png" time="100"]
 
 ;BGMの再生 ※現在は開発のために音量0
-[playbgm time="1000" storage="main.mp3" volume="0" loop=true]
+[playbgm time="1000" storage="main.mp3" volume="20" loop=true]
 
 ; キャラクター定義&登場
 [chara_new name="hiroine" storage="chara/hiroine/hiroine.png" jname="あかね"]

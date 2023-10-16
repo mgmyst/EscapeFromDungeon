@@ -2,12 +2,14 @@
 ; シーン初期設定
 ; ==========================================================
 *initialize
+; BGMの停止
+[stopbgm]
 
 ; 背景読み込み
 [bg storage="clear.png" time="2000"]
 
 ;SEの再生 ※現在は開発のために音量0
-; [playse storage="sound.mp3"]
+[playse storage="fanfare.mp3" volume="30"]
 
 #hiroine
 お疲れ様でした！[r]
