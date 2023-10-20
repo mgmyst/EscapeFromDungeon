@@ -6,20 +6,30 @@
 [call target="*variable"]
 
 ; 背景読み込み
-[bg storage="room_1.png" time="100"]
+[bg storage="room_1.png" time="10000" wait="false"]
+
+; インベントリ読み込み
+[image name="title_logo" layer="0" x="80" y="20" height="280"  storage="system/inventory.png"]
+
+; メニューボタン表示
+[showmenubutton]
 
 ;BGMの再生 ※現在は開発のために音量0
 [playbgm time="1000" storage="main.mp3" volume="20" loop=true]
 
 ; キャラクター定義&登場
-[chara_new name="hiroine" storage="chara/hiroine/hiroine.png" jname="あかね"]
-[chara_show name="hiroine" left="20" top="310" time="300"]
+[chara_new name="hiroine" jname="ヒロイン" storage="chara/hiroine/hiroine.png"]
+[chara_show name="hiroine" left="30" top="310" time="300"]
+[chara_new name="system" jname="システム" storage="chara/hiroine/system.png"]
+; [chara_show name="system" left="600" top="310" time="0"]
+[chara_hide name="system"]
 
 ; メッセージウィンドウ(ふきだし)の設定
-[ptext name="chara_name_area" layer="message0" color="white" size=28 bold=true x=180 y=510]
+[ptext name="chara_name_area" layer="message0" color="white" size="28" bold="true" x="180" y="510"]
 [chara_config ptext="chara_name_area"]
-[fuki_chara name="hiroine" border_size="1" border_color="white" color="FFFFFF" sippo="bottom" left=20 top="-50" sippo_left="110" sippo_top="30"]
-[position layer="message0" left=550 top=500 width=0 height=0 page=fore visible=true]
+[fuki_chara name="hiroine" border_size="1" border_color="white" color="FFFFFF" sippo="bottom" left="20" top="-50" sippo_left="110" sippo_top="30"]
+[fuki_chara name="system" border_size="1" border_color="white" color="FFFFFF" sippo="bottom" left="260" top="150" sippo_left="110" sippo_top="30"]
+[position layer="message0" left="550" top="500" width="0" height="0" page="fore" visible="true"]
 [fuki_start]
 
 ; 本編開始(初回訪問時限定処理へのジャンプ)
@@ -51,9 +61,9 @@
 *inventory
 ; 鍵
 [if exp="itemKey==1"]
-    [image name="key" layer="0" x="30" y="60" storage="item/key_1.png"]
+    [image name="key_s" layer="0" x="120" y="115" height="30" storage="item/key_1.png"]
 [else]
-    [free name="key" layer="0"]
+    [free name="key_s" layer="0"]
 [endif]
 
 [return]
@@ -150,6 +160,12 @@
     #hiroine
     金貨の山[p]
     ……これは、鍵？[p]
+    ; 鍵の表示
+    [playse storage="item.ogg" loop="false"]
+    [image name="key" layer="0" x="535" y="220" storage="item/key_1.png"]
+    #system
+    鍵を手に入れた[p]
+    [free name="key" layer="0"]
     [eval exp="itemKey=1"]
     [eval exp="isTakeKey=1"]
 [else]
@@ -179,9 +195,22 @@
     #hiroine
     鉄格子だ[p]
     手持ちの鍵が使えそうだ[p]
-    開いた[p]
+    #system
+    鍵を使う？[r]
+    ;選択肢 | 鍵の使用
+    [link target="*use_key"]> は　い[endlink][r]
+    [link target="*not_use_key"]> いいえ[endlink][r]
+    [s]
+    *use_key
+    #system
+    鉄格子の扉が開いた[p]
+    ; フラグセット
     [eval exp="itemKey=0"]
     [eval exp="isDoorOpen=1"]
+    [jump target="*main"]
+    *not_use_key
+    何も起きなかった[p]
+    [jump target="*main"]
 [endif]
 
 [jump target="*main"]
