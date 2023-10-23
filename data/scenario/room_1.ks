@@ -12,7 +12,7 @@
 [image name="title_logo" layer="0" x="80" y="20" height="280"  storage="system/inventory.png"]
 
 ; メニューボタン表示
-[showmenubutton]
+; [showmenubutton]
 
 ;BGMの再生 ※現在は開発のために音量0
 [playbgm time="1000" storage="main.mp3" volume="20" loop=true]
@@ -61,7 +61,7 @@
 *inventory
 ; 鍵
 [if exp="itemKey==1"]
-    [image name="key_s" layer="0" x="120" y="115" height="30" storage="item/key_1.png"]
+    [image name="key_s" layer="0" x="120" y="130" height="30" storage="item/key_1.png"]
 [else]
     [free name="key_s" layer="0"]
 [endif]
@@ -78,6 +78,7 @@
 [clickable x="835" y="45" width="40" height="350" target="*event_03" opacity="0" mouseopacity="50" color="0xffffff"]
 [clickable x="620" y="350" width="140" height="100" target="*event_04" opacity="0" mouseopacity="50" color="0xffffff"]
 [clickable x="1100" y="310" width="100" height="100" target="*event_05" opacity="0" mouseopacity="50" color="0xffffff"]
+[clickable x="100" y="240" width="200" height="30" target="*show_menu" opacity="0" mouseopacity="50" color="0xffffff"]
 
 [return]
 
@@ -114,8 +115,12 @@
 ; インベントリ設定
 [call target="*inventory" ]
 
+; メニューボタンの表示
+[button name="role_button" role="menu" graphic="../fgimage/system/button_menu.png" x="1060" y="670" fix="true"]
+
 ; スタックをクリア
 [clearstack]
+
 
 ; 停止(入力待機)
 [s]
@@ -213,4 +218,15 @@
     [jump target="*main"]
 [endif]
 
+[jump target="*main"]
+
+;-----------------------------------
+; メニューの表示
+;-----------------------------------
+
+*show_menu
+#
+メニューの表示です。
+[showmenu]
+[p]
 [jump target="*main"]
